@@ -1,23 +1,23 @@
 version: '3.7'
 services:
   kafka-magic:
-    container_name: kafka-magic
-    image: kafka-magic:2.0.3.4
+    container_name: kafkacompose
+    image: kafka-magic:latest
     build: ./
     restart: always
     ports:
-      - "9090:80"
-    networks:
-      - default
+      - "80:80"
     environment:
       KMAGIC_ALLOW_TOPIC_DELETE: "true"
       KMAGIC_CONFIG_STORE_TYPE: "file"
       KMAGIC_CONFIG_STORE_CONNECTION: "Data Source=/config/KafkaMagicConfig.db;"
-      KMAGIC_CONFIG_ENCRYPTION_KEY: "ENTER_YOUR_KEY_HERE"
+      KMAGIC_CONFIG_ENCRYPTION_KEY: "1q2w3e4r"
     volumes:
-      - .:/config
+      - mydata:/config
+volumes:
+  mydata:
+    driver: azure_file
+    driver_opts:
+      share_name: kafka
+      storage_account_name: azcertsc
 
-networks:
-  default:
-    external:
-      name: kafka-network
